@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include<malloc.h>
+struct list {
+    int value;
+    struct list *next;
+};
+
+struct list *head, *tail;
+
+void add(int val)
+{
+    struct list *new;
+    new = (struct list *)malloc(sizeof(struct list));
+    new->value =val;
+    new->next= NULL;
+    if(head == NULL)
+    {
+      head = new;
+      tail = new;
+    }
+    else
+    {
+      tail -> next = new;
+      tail = new;
+    }
+}
+
+void search(int val)
+{
+  struct list *temp;
+  temp = head;
+  while (temp != NULL)
+  {
+    if(temp -> value == val)
+    {
+      printf("%d",val);
+      return;
+    }
+    temp = temp-> next; 
+  }
+  printf("invalid");
+}
+void delete(int value)
+{
+    struct list *temp = head,*prev;
+    prev=head;
+    while(temp)
+    {
+        if(temp->value==value){
+            if(temp==head)
+            {
+                head=head->next;
+                free(temp);
+                return;
+            }
+            else if(temp==tail)
+            {
+                prev->next=temp->next;
+                tail=prev;
+                free(temp);
+                return;
+            }
+            else
+            {
+                prev->next=temp->next;
+                free(temp);
+                return;
+            }
+        }
+    }
+}
+void print()
+{
+  struct list *temp=head;
+  while(temp)
+  {
+    printf("Value is %d\n",temp->value);
+    temp=temp->next;
+  }
+}
+int main()
+{
+    add(10);
+    add(20);
+    add(30);
+    search(10);
+    search(40);
+    delete(20);
+    print();
+    return 0;
+}
+
+
+
+
+
+
