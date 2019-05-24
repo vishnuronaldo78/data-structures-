@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<malloc.h>
+struct tag {
+  int value;
+  struct tag *next, *prev;
+};
+struct tag *head, *tail;
+void add(int val)
+{
+  struct tag *temp;
+  temp= (struct tag *)malloc(sizeof(struct tag));
+  temp->prev=NULL;
+  temp->next=NULL;
+  temp->value=val;
+  if(!head)
+  head=tail=temp;
+  else
+  {
+    tail->next=temp;
+    temp->prev=tail;
+    tail=temp;
+  }
+}
+void search(int val)
+{
+  struct tag *temp;
+  temp=head;
+  while(temp)
+  {
+    if(temp->value==val)
+    {
+      printf("Node %d found",val);
+      return;
+    }
+    temp=temp->next;
+  }
+  printf("value %d is not found\n",val);
+}
+void insert(int pos, int val)
+{
+  struct tag *temp, *newnode;
+  int count=1;
+  temp=head;
+  while(temp!=NULL&&count<pos){
+    temp=temp->next; count++;
+  }
+  if(count!=pos)
+  {
+    printf("not enough nodes %d",count);
+    return;
+  }
+  newnode=(struct tag *)malloc(sizeof(struct tag));
+  newnode->next=NULL;
+  newnode->value=val;
+  newnode->prev=NULL;
+  newnode->next=temp->next;
+  newnode->prev=temp;
+  temp->next=newnode;
+  newnode->next->prev=newnode;
+}
+int main() {
+  add(5);
+  add(7);
+  insert(1,6);
+  search(6);
+  search(8);
+  insert(14,6);
+  return 0;
+}
